@@ -18,7 +18,11 @@ class Translate(BotPlugin):
         """Translate a string from a certain source language to a target language.
         Example: !translate en fr computer
         """
-        self.params['sl'], self.params['tl'], self.params['text'] = args.strip().split()
+        arguments = args.strip().split()
+        self.params['sl'] = arguments[0]
+        self.params['tl'] = arguments[1]
+        self.params['text'] = ' '.join(arguments[2:])
+
         request = Request(self.url, urlencode(self.params), self.headers)
         raw_response = urlopen(request).read()
 
