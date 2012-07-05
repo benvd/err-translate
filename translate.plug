@@ -1,0 +1,6 @@
+[Core]
+Name = Translate
+Module = err-translate
+
+[Documentation]
+Description = Translate arbitrary strings
