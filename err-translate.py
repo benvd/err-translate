@@ -84,12 +84,13 @@ class Translate(BotPlugin):
     @botcmd
     def translate(self, mess, args):
         """Translate a string from a certain source language to a target language.
-        Example: !translate en fr computer
-        """
-        arguments = args.strip().split()
-        self.params['sl'] = arguments[0]
-        self.params['tl'] = arguments[1]
-        self.params['text'] = ' '.join(arguments[2:])
+        Example: !translate en fr computer"""
+        arguments = self.get_arguments(args)
+
+        if None in arguments:
+            return 'Please specify at least a target language.'
+
+        self.params['sl'], self.params['tl'], self.params['text'] = arguments
 
         request = Request(self.url, urlencode(self.params), self.headers)
         raw_response = urlopen(request).read()
@@ -106,3 +107,19 @@ class Translate(BotPlugin):
     def translate_langs(self, mess, args):
         """List all supported languages."""
         return '\n'.join(sorted(['%s (%s)' % (self.languages[key], key) for key in self.languages]))
+
+    def get_arguments(self, args):
+        words = args.strip().split()
+        sl, tl, text = None, None, None
+
+        if words[0] in self.languages:
+            if words[1] in self.languages:
+                sl = words[0]
+                tl = words[1]
+                text = ' '.join(words[2:])
+            else:
+                sl = 'auto'
+                tl = words[0]
+                text = ' '.join(words[1:])
+
+        return (sl, tl, text)
