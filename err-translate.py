@@ -13,8 +13,7 @@ class Translate(BotPlugin):
     params = {'client': 't', 'sl': None, 'tl': None, 'text': None}
     url = 'http://translate.google.com/translate_a/t'
 
-    languages = {'en': 'English',
-        'nl': 'Dutch',
+    languages = {
         'af': 'Afrikaans',
         'sq': 'Albanian',
         'ar': 'Arabic',
